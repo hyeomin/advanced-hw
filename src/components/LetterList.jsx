@@ -6,11 +6,14 @@ import {
     StSpan,
     StSpanContainer,
 } from "./StyledComponents";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { MemberContext } from "../context/MemberContext";
 
-const LetterList = ({ letters, memberFilter, picture }) => {
+const LetterList = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
+    const { letters, memberFilter, picture } = useContext(MemberContext);
+    console.log(letters);
 
     useEffect(() => {
         fetch("https://my-json-server.typicode.com/hyeomin/mockjson/topics")

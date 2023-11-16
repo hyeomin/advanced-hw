@@ -10,6 +10,7 @@ import {
 } from "../components/StyledComponents";
 import picture from "../components/profileImg.png";
 import LetterList from "../components/LetterList";
+import { MemberContext } from "../context/MemberContext";
 
 function Home() {
     // const navigate = useNavigate();
@@ -135,11 +136,14 @@ function Home() {
                     );
                 })}
             </StNav>
-            <LetterList
+            <MemberContext.Provider value={{ letters, memberFilter, picture }}>
+                <LetterList />
+            </MemberContext.Provider>
+            {/* <LetterList
                 letters={letters}
                 memberFilter={memberFilter}
                 picture={picture}
-            />
+            /> */}
         </StContainer>
     );
 }
