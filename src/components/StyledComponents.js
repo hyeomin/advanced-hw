@@ -4,17 +4,17 @@ import styled from "styled-components";
 const StContainer = styled.div`
     display: flex;
     flex-direction: column;
-    flex-basis: 40%;
+    align-items: center;
+    justify-content: center;
+
     background-color: grey;
-    padding: 50px;
-    margin: 30px auto;
-    /* align-items: center; */
+    padding: 0 30px;
 `;
 
 const StHeader = styled.header`
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
+    align-items: center;
     justify-content: center;
 
     height: 100px;
@@ -60,41 +60,44 @@ const StInput = styled.input`
 
 const StCardContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
 
-    max-width: 1200px;
-    height: 180px;
     background-color: green;
 `;
 
 const StSingleCard = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    column-gap: 20px;
     background-color: pink;
 
-    width: 500px;
+    width: 350px;
     height: 180px;
     padding: 25px 15px;
-    margin: 20px;
-    gap: 10px;
-
-    overflow: hidden;
+    margin: 10px;
 `;
 
 const StProfileImg = styled.img`
-    max-width: 100px; // Ensures the image doesn't exceed the card's width
+    width: 100%; // Ensures the image doesn't exceed the card's width
     max-height: 50%; // Ensures the image fits within the card's height
-    /* object-fit: cover; // Adjusts the image to cover the area without distorting */
-    border-radius: 100px;
+    object-fit: cover; // Adjusts the image to cover the area without distorting
+    border-radius: 50%;
+`;
+
+const StSpanContainer = styled.div`
+    display: grid;
+    /* grid-template-rows: 20% 40% 20% 20%; */
+    background-color: lightblue;
 `;
 
 const StSpan = styled.span`
-    display: block; // or inline-block
-    width: calc(100% - 100px); // Adjust the width as needed
+    height: 80px;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    /* word-wrap: break-word; */
 `;
 
 export {
@@ -109,4 +112,5 @@ export {
     StSingleCard,
     StProfileImg,
     StSpan,
+    StSpanContainer,
 };

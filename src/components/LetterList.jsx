@@ -4,6 +4,7 @@ import {
     StSingleCard,
     StProfileImg,
     StSpan,
+    StSpanContainer,
 } from "./StyledComponents";
 import { useEffect, useState } from "react";
 
@@ -30,7 +31,7 @@ const LetterList = ({ letters, memberFilter, picture }) => {
                     return (
                         <StSingleCard className="single-card" key={item.id}>
                             <StProfileImg src={item.avatar} alt="dummy" />
-                            <div>
+                            <StSpanContainer style={{ display: "grid" }}>
                                 <h3>{item.nickname}</h3>
                                 <StSpan>{item.content}</StSpan>
                                 <span>to: {item.writedTo}</span>
@@ -41,7 +42,7 @@ const LetterList = ({ letters, memberFilter, picture }) => {
                                 >
                                     자세히 보기
                                 </button>
-                            </div>
+                            </StSpanContainer>
                         </StSingleCard>
                     );
                 })}
