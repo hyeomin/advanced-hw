@@ -7,8 +7,9 @@ const StContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: grey;
+    background-color: #008eca;
     padding: 0 30px;
+    margin-bottom: 3000px;
 `;
 
 const StHeader = styled.header`
@@ -17,7 +18,7 @@ const StHeader = styled.header`
     align-items: center;
     justify-content: center;
 
-    height: 100px;
+    height: auto;
 `;
 
 const StNav = styled.nav`
@@ -30,33 +31,41 @@ const StNav = styled.nav`
 `;
 
 const StMemberButton = styled.button`
-    width: 80px;
+    width: 100px;
     background-color: ${(props) => props.backgroundColor};
     border-color: grey;
     border-radius: 8px;
+    font-size: 15px;
+    border-color: transparent;
 `;
 
 const StForm = styled.form`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    align-items: left;
+    justify-content: left;
 
     width: 500px;
     padding: 20px;
     border: 1px solid black;
     border-radius: 10px;
     gap: 15px;
+
+    background-color: white;
 `;
 
 const StInputContainer = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 60px 1fr;
 `;
 
 const StInput = styled.input`
     width: 400px;
     margin-left: auto;
+    align-items: end;
 `;
+
+// card
 
 const StCardContainer = styled.div`
     display: flex;
@@ -64,18 +73,19 @@ const StCardContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
-    background-color: green;
 `;
 
 const StSingleCard = styled.div`
     display: grid;
     grid-template-columns: 100px 1fr;
     column-gap: 20px;
-    background-color: pink;
 
-    width: 350px;
-    height: 180px;
+    background-color: white;
+    border-radius: 5%;
+    border: 1px solid black;
+
+    width: 400px;
+    height: 260px;
     padding: 25px 15px;
     margin: 10px;
 `;
@@ -89,15 +99,19 @@ const StProfileImg = styled.img`
 
 const StSpanContainer = styled.div`
     display: grid;
-    /* grid-template-rows: 20% 40% 20% 20%; */
-    background-color: lightblue;
+    row-gap: 8px;
+
+    height: 100%;
 `;
 
 const StSpan = styled.span`
-    height: 80px;
+    display: grid;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* word-wrap: break-word; */
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 5px;
+    height: 100px;
 `;
 
 export {

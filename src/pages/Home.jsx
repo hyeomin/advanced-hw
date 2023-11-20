@@ -7,28 +7,30 @@ import {
     StHeader,
     StInput,
     StInputContainer,
-} from "../components/StyledComponents";
-import picture from "../components/profileImg.png";
+} from "../components/HomeStyledComponents";
 import LetterList from "../components/LetterList";
-import { MemberContext } from "../context/MemberContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLetters, setMemberFilter } from "../redux/modules/letters";
+import picture from "../components/profileImg.png";
+import { v4 as uuidv4 } from "uuid";
 
 function Home() {
-    // const navigate = useNavigate();
-
     const membersName = [
-        { id: 0, name: "하니" },
-        { id: 1, name: "혜인" },
-        { id: 2, name: "해린" },
-        { id: 3, name: "민지" },
-        { id: 4, name: "다니엘" },
+        { id: 0, name: "Jim Halpert" },
+        { id: 1, name: "Pam Beesly" },
+        { id: 2, name: "Michael Scott" },
+        { id: 3, name: "Dwight Schrute" },
+        { id: 4, name: "Angela Martin" },
+        { id: 5, name: "Oscar Martinez" },
     ];
 
     const [nickname, setNickname] = useState("");
-    const [message, setMessage] = useState("");
-    const [selected, setSelected] = useState(membersName[0].name);
-    const [letters, setLetters] = useState([]);
-    const [memberFilter, setMemberFilter] = useState("");
+    const [content, setContent] = useState("");
     const [clickedMember, setClickedMember] = useState("");
+    const [writedTo, setWritedTo] = useState(membersName[0].name);
+
+    const { letters } = useSelector((state) => state.reducers);
+    const dispatch = useDispatch();
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -39,48 +41,76 @@ function Home() {
             } else {
                 setNickname(inputValue);
             }
-        } else if (name === "message") {
+        } else if (name === "content") {
             const inputValue = value;
             if (inputValue.length > 300) {
                 alert("내용은 300자 미만이어야 합니다.");
             } else {
-                setMessage(value);
+                setContent(value);
             }
         }
     };
 
     const onSelectHandler = (event) => {
-        setSelected(event.target.value);
+        setWritedTo(event.target.value);
     };
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
+
         const newLetter = {
-            id: letters.length + 1,
+            createdAt: new Date().toISOString(),
             nickname,
-            message,
-            selected,
+            avatar: picture,
+            content,
+            writedTo,
+            id: uuidv4,
         };
 
         if (nickname.length === 0) {
             alert("닉네임이 입력되지 않았습니다.");
-        } else if (message.length === 0) {
+        } else if (content.length === 0) {
             alert("내용이 입력되지 않았습니다.");
         } else {
-            setLetters([...letters, newLetter]);
+            dispatch(setLetters([...letters, newLetter]));
         }
         setNickname("");
-        setMessage("");
-        console.log(newLetter);
+        setContent("");
+    };
+
+    const handleMemberFilterClick = (memberName) => {
+        dispatch(setMemberFilter(memberName));
+        setClickedMember(memberName); // 클릭한 멤버를 상태로 저장
+    };
+
+    const handleShowAllClick = () => {
+        dispatch(setMemberFilter(""));
+        setClickedMember(""); // 선택된 멤버 초기화
     };
 
     return (
         <StContainer>
-            <StHeader>NewJeans Fan Letter Collection</StHeader>
-
+            <StHeader>
+                <img
+                    style={{ width: "100%" }}
+                    src="https://roost.nbcuni.com/bin/viewasset.html/content/dam/Peacock/Campaign/landingpages/library/theoffice/mainpage/office-social-min.png/_jcr_content/renditions/original"
+                    alt="no image"
+                />
+                <h1
+                    style={{
+                        padding: "30px",
+                        fontSize: "30px",
+                        color: "white",
+                    }}
+                >
+                    The Office Letter Collection
+                </h1>
+            </StHeader>
             <StForm onSubmit={onSubmitHandler}>
                 <StInputContainer className="nickname-input">
-                    <label>닉네임: </label>
+                    <label style={{ alignContent: "right" }}>
+                        닉네임:&nbsp;
+                    </label>
                     <StInput
                         type="text"
                         name="nickname"
@@ -89,19 +119,20 @@ function Home() {
                         maxLength={10}
                     />
                 </StInputContainer>
-                <div className="message-input">
+                <StInputContainer className="content-input">
                     내용:&nbsp;
                     <StInput
+                        style={{ height: "100px" }}
                         type="text"
-                        name="message"
-                        value={message}
+                        name="content"
+                        value={content}
                         onChange={onChangeHandler}
                         maxLength={300}
                     />
-                </div>
+                </StInputContainer>
                 <div className="select-member-input">
                     누구에게 보내실건가요?&nbsp;
-                    <select value={selected} onChange={onSelectHandler}>
+                    <select value={writedTo} onChange={onSelectHandler}>
                         {membersName.map((member) => {
                             return (
                                 <option value={member.name} key={member.id}>
@@ -115,20 +146,26 @@ function Home() {
                 <button type="submit">등록하기</button>
             </StForm>
             <StNav>
-                {/* onclick 하면 selected를 해당 멤버 이름으로 바꿔야 함 */}
+                <StMemberButton
+                    onClick={handleShowAllClick}
+                    backgroundColor={
+                        clickedMember === "" ? "yellow" : "lightgray"
+                    }
+                >
+                    All
+                </StMemberButton>
                 {membersName.map((member) => {
                     return (
                         <StMemberButton
                             key={member.id}
                             value={member.name}
                             onClick={() => {
-                                setMemberFilter(member.name);
-                                setClickedMember(member.name);
+                                handleMemberFilterClick(member.name);
                             }}
                             backgroundColor={
                                 clickedMember === member.name
                                     ? "yellow"
-                                    : "purple"
+                                    : "lightgray"
                             }
                         >
                             {member.name}
@@ -136,14 +173,7 @@ function Home() {
                     );
                 })}
             </StNav>
-            <MemberContext.Provider value={{ letters, memberFilter, picture }}>
-                <LetterList />
-            </MemberContext.Provider>
-            {/* <LetterList
-                letters={letters}
-                memberFilter={memberFilter}
-                picture={picture}
-            /> */}
+            <LetterList />
         </StContainer>
     );
 }

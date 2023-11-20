@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+    StCardContainer,
+    StCardHeader,
+    StButtonContainer,
+    StButton,
+    StInputArea,
+} from "../components/DetailStyledComponents";
+import { StContainer } from "../components/HomeStyledComponents";
 
 const Detail = function () {
     const [data, setData] = useState([]);
@@ -14,8 +22,6 @@ const Detail = function () {
             .then((json) => setData([...json]))
             .catch((error) => console.error("Error:", error));
     }, []);
-
-    console.log(data);
 
     const onEditButtonClick = (item) => {
         setEditItemId(item.id);
@@ -56,37 +62,53 @@ const Detail = function () {
         return item.id === params.id;
     });
 
-    console.log("found data ->", foundMemberData);
-
     if (!foundMemberData) {
         return <div>Loading data or member not found...</div>;
     }
 
     return (
-        <div>
-            <img alt="dummy" src={foundMemberData.avatar} />
-            <h3>{foundMemberData.nickname}</h3>
-            <span>to: {foundMemberData.writedTo}</span> <br />
-            {editItemId === foundMemberData.id ? (
-                <input
-                    type="textarea"
-                    value={editValue}
-                    onChange={onEditChange}
-                />
-            ) : (
-                <span>{foundMemberData.content}</span>
-            )}
-            {editItemId === foundMemberData.id ? (
-                <button onClick={onSaveEditClick}>저장</button>
-            ) : (
-                <button onClick={() => onEditButtonClick(foundMemberData)}>
-                    수정
-                </button>
-            )}
-            <button onClick={() => onDeleteButtonClick(foundMemberData)}>
-                삭제
-            </button>
-        </div>
+        <StContainer>
+            <StCardContainer>
+                <StCardHeader>
+                    <img
+                        style={{ width: "120px", borderRadius: "50%" }}
+                        alt="dummy"
+                        src={foundMemberData.avatar}
+                    />
+                    <h3>{foundMemberData.nickname}</h3>
+                </StCardHeader>
+                <span style={{ backgroundColor: "white", padding: "0, 20px" }}>
+                    to: {foundMemberData.writedTo}
+                </span>
+                <StInputArea>
+                    {editItemId === foundMemberData.id ? (
+                        <input
+                            type="textarea"
+                            value={editValue}
+                            onChange={onEditChange}
+                        />
+                    ) : (
+                        <span>{foundMemberData.content}</span>
+                    )}{" "}
+                </StInputArea>
+                <StButtonContainer>
+                    {editItemId === foundMemberData.id ? (
+                        <StButton onClick={onSaveEditClick}>저장</StButton>
+                    ) : (
+                        <StButton
+                            onClick={() => onEditButtonClick(foundMemberData)}
+                        >
+                            수정
+                        </StButton>
+                    )}
+                    <StButton
+                        onClick={() => onDeleteButtonClick(foundMemberData)}
+                    >
+                        삭제
+                    </StButton>
+                </StButtonContainer>
+            </StCardContainer>
+        </StContainer>
     );
 };
 
